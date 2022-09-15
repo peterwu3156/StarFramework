@@ -131,6 +131,7 @@ namespace StarFramework.Editor
 
                 BuildPipeline.BuildAssetBundles("Assets/ABPack", BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
                 EditorUtility.DisplayDialog("打包完成", "ArtRes文件夹下已打包", "确定");
+                AssetDatabase.Refresh();
             }
         }
     }
