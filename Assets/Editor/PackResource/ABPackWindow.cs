@@ -10,10 +10,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.IO;
 using UnityEngine;
-using Unity.Mathematics;
 using System;
-using System.Diagnostics.Tracing;
-using UnityEngine.Timeline;
+
 
 namespace StarFramework.Editor
 {
@@ -32,18 +30,17 @@ namespace StarFramework.Editor
         private void OnGUI()
         {
             EditorGUILayout.HelpBox("运行时需要加载的资源需要分类好放在ArtRes文件夹下，框架会自动读取" + Environment.NewLine +
-                "统计单文件夹内所有资源大小时，meta文件也是被计算在内的", MessageType.Info);
+                "统计单文件夹内所有资源大小时，meta文件也是被计算在内的" + Environment.NewLine +
+                "ArtRes文件夹目前最多不能超过一级 也就是说文件夹里只允许存放文件", MessageType.Info);
             EditorGUILayout.Space(5f);
 
             EditorGUILayout.BeginHorizontal();
+
             if (GUILayout.Button("优化手册"))
             {
                 System.Diagnostics.Process.Start("https://starfishpeter.cn/archives/8620");
             }
-            if (GUILayout.Button("手动刷新"))
-            {
 
-            }
             if (GUILayout.Button("快速打包"))
             {
                 string resPath = "Assets/ArtRes";
@@ -56,6 +53,9 @@ namespace StarFramework.Editor
                     {
                         RapidPack(folder.FullName);
                     }
+
+                    EditorUtility.DisplayDialog("打包完成", $"已打包{folders.Length}个文件夹下的文件", "确定");
+                    AssetDatabase.Refresh();
                 }
 
             }
@@ -112,26 +112,27 @@ namespace StarFramework.Editor
 
         private void RapidPack(string path)
         {
-            var name = path.Substring(path.IndexOf("Assets/") + 7);
-            name = name.ToLower();
-
             if (Directory.Exists(path))
             {
+                AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+                string nowFolderName = path.Substring(path.LastIndexOf('\\') + 1);
+                buildMap[0].assetBundleName = nowFolderName;
+
                 DirectoryInfo directoryInfo = new DirectoryInfo(path);
-                FileInfo[] files = directoryInfo.GetFiles("*.meta", SearchOption.TopDirectoryOnly);
-                foreach (FileInfo file in files)
+                FileInfo[] files = directoryInfo.GetFiles("*", SearchOption.TopDirectoryOnly);
+
+                string[] assetNames = new string[files.Length];
+                for (int i = 0; i < files.Length; i++)
                 {
-                    var text = File.ReadAllText(file.FullName);
-                    if (text[text.IndexOf("assetBundleName:") + 18] == ' ')
-                    {
-                        text = text.Insert(text.IndexOf("assetBundleName:") + 16, " " + name);
-                    }
-                    File.WriteAllText(file.FullName, text);
+                    string fullPath = files[i].FullName;
+                    string relativePath = fullPath.Substring(fullPath.IndexOf("Assets"));
+                    relativePath = relativePath.Replace('\\', '/');
+                    assetNames[i] = relativePath;
                 }
 
-                BuildPipeline.BuildAssetBundles("Assets/ABPack", BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
-                EditorUtility.DisplayDialog("打包完成", "ArtRes文件夹下已打包", "确定");
-                AssetDatabase.Refresh();
+                buildMap[0].assetNames = assetNames;
+
+                BuildPipeline.BuildAssetBundles("Assets/ABPack", buildMap, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
             }
         }
     }

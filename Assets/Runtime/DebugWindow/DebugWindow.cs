@@ -85,7 +85,7 @@ namespace StarFramework.Runtime
 
             foreach (string log in logList)
             {
-                EditorGUILayout.LabelField(log);
+                GUILayout.Label(log);
             }
 
             GUILayout.EndScrollView();
