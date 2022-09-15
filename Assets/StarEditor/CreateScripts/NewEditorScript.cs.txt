@@ -1,0 +1,20 @@
+//------------------------------------------------------------
+// 脚本名:		#SCRIPTNAME#.cs
+// 作者:			#AUTHORNAME#
+// 创建时间:		#CREATETIME#
+// 描述:			#
+//------------------------------------------------------------
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using System.IO;
+
+namespace StarFramework.Editor
+{
+	public class #SCRIPTNAME#
+	{
+
+	}
+}

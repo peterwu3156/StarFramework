@@ -1,0 +1,23 @@
+//------------------------------------------------------------
+// 脚本名:		#SCRIPTNAME#.cs
+// 作者:			#AUTHORNAME#
+// 创建时间:		#CREATETIME#
+// 描述:			#
+//------------------------------------------------------------
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class #SCRIPTNAME# : MonoBehaviour
+{
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+}
