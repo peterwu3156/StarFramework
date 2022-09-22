@@ -31,7 +31,7 @@ namespace StarFramework.Editor
         {
             EditorGUILayout.HelpBox("运行时需要加载的资源需要分类好放在ArtRes文件夹下，框架会自动读取" + Environment.NewLine +
                 "统计单文件夹内所有资源大小时，meta文件也是被计算在内的" + Environment.NewLine +
-                "ArtRes文件夹目前最多不能超过一级 也就是说文件夹里只允许存放文件", MessageType.Info);
+                "ArtRes的子文件夹目前最多不能超过一级 不允许嵌套文件夹", MessageType.Info);
             EditorGUILayout.Space(5f);
 
             EditorGUILayout.BeginHorizontal();
@@ -99,6 +99,10 @@ namespace StarFramework.Editor
                     else
                     {
                         EditorGUILayout.LabelField($"共有{filesNumber}个文件,大小合计为{Math.Round(filesSize / 1000, 2)}MB");
+                        if (Math.Round(filesSize / 1000, 2) > 100)
+                        {
+                            EditorGUILayout.HelpBox($"检测到该文件夹下总的文件大小超过100MB 最好进行优化", MessageType.Warning);
+                        }
                     }
                     EditorGUILayout.EndHorizontal();
 
@@ -132,7 +136,7 @@ namespace StarFramework.Editor
 
                 buildMap[0].assetNames = assetNames;
 
-                BuildPipeline.BuildAssetBundles("Assets/ABPack", buildMap, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
+                BuildPipeline.BuildAssetBundles("Assets/StreamingAssets", buildMap, BuildAssetBundleOptions.ChunkBasedCompression, BuildTarget.StandaloneWindows);
             }
         }
     }
