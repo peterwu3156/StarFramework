@@ -17,9 +17,9 @@ namespace StarFramework.Editor
     /// </summary>
     public class ScriptGenerator : EditorWindow
     {
-        private static string monoPath = "Assets/StarEditor/CreateScripts/NewMonoScript.cs.txt";
-        private static string editorPath = "Assets/StarEditor/CreateScripts/NewEditorScript.cs.txt";
-        private static string runtimePath = "Assets/StarEditor/CreateScripts/NewRuntimeScript.cs.txt";
+        private static string monoPath = "Assets/Editor/CreateScripts/NewMonoScript.cs.txt";
+        private static string editorPath = "Assets/Editor/CreateScripts/NewEditorScript.cs.txt";
+        private static string runtimePath = "Assets/Editor/CreateScripts/NewRuntimeScript.cs.txt";
 
         private static string nowPath = string.Empty;
         private static string nowTemplate = string.Empty;
