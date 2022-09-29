@@ -44,7 +44,7 @@ namespace StarFramework.Runtime
             return pool.GetObject();
         }
 
-        private void OnDestroy()
+        public void Clear()
         {
             poolDic.Clear();
         }
